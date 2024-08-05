@@ -52,4 +52,4 @@ console.log(blocks.toString());
 
 Output should look something like this:
 
-![basic terminal Deno image](./examples/example.png)
+![Image represented by block elements](./examples/example.png)
