@@ -1,5 +1,5 @@
 import { Color, PixMap } from "./src/pixmap.ts";
-import { resize } from "https://deno.land/x/deno_image/mod.ts";
+import { resize } from "https://deno.land/x/deno_image@0.0.4/mod.ts";
 import { decode } from "https://deno.land/x/jpegts@1.1/mod.ts";
 
 // Download image
