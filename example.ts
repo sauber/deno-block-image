@@ -3,7 +3,7 @@ import { resize } from "https://deno.land/x/deno_image@0.0.4/mod.ts";
 import { decode } from "https://deno.land/x/jpegts@1.1/mod.ts";
 
 // Import
-import { Image } from "jsr:@sauber/block-image@1.0.2";
+import { Image } from "jsr:@sauber/block-image@1.0.3";
 
 // Download image
 const url = "https://deno.com/images/artwork/deno_minecraft.jpg";
