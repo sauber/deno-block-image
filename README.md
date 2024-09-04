@@ -6,12 +6,12 @@ Here is an example which downloads an image, resizes the image and mirrors the
 pixels as block elements:
 
 ```ts
-// External imports
+// External imports for handling JPEG images
 import { resize } from "https://deno.land/x/deno_image@0.0.4/mod.ts";
 import { decode } from "https://deno.land/x/jpegts@1.1/mod.ts";
 
 // Import
-import { Image } from "jsr:@sauber/block-image@1.0.1";
+import { Image } from "jsr:@sauber/block-image@1.0.2";
 
 // Download image
 const url = "https://deno.com/images/artwork/deno_minecraft.jpg";
@@ -32,7 +32,7 @@ const cols: number = Math.round((width / height) * rows) * 2;
 const resizedJPEG = await resize(originalJPEG, {
   width: cols,
   height: rows,
-  aspectRatio: false, // Half-width chars
+  aspectRatio: false, // because half-width chars
 });
 
 // Import resized image
