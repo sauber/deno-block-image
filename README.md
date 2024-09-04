@@ -2,6 +2,8 @@
 
 Display an image using block elements on terminal.
 
+## Example
+
 Here is an example which downloads an image, resizes the image and mirrors the
 pixels as block elements:
 
@@ -46,3 +48,11 @@ console.log(image.toString());
 Output should look something like this:
 
 ![Image represented by block elements](./examples/example.png)
+
+## Motivation
+
+https://jsr.io/@garn/terminal-images has similar usage. Main differences are:
+
+* terminal-images has a deep stack of dependencies of both Deno and Node modules. block-image only depends on two Deno std modules.
+* terminal-images need to run async. block-image is sync.
+* terminal-images supports many image formats and animations. block-image supports only raw pixel buffer.
