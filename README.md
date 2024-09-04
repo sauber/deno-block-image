@@ -8,7 +8,7 @@ pixels as block elements:
 ```ts
 import { resize } from "https://deno.land/x/deno_image@0.0.4/mod.ts";
 import { decode } from "https://deno.land/x/jpegts@1.1/mod.ts";
-import { Image } from "jsr:@sauber/block-image@1.0.0";
+import { Image } from "jsr:@sauber/block-image@1.0.1";
 
 // Download image
 const url = "https://deno.com/images/artwork/deno_minecraft.jpg";
