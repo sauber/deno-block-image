@@ -1,1 +1,1 @@
-export * from "./src/pixmap.ts";
+export * from "./src/image.ts";
