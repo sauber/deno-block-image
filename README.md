@@ -6,9 +6,9 @@ Here is an example which downloads an image, resizes the image and mirrors the
 pixels as block elements:
 
 ```ts
-import { Color, PixMap } from "@sauber/block-image";
-import { resize } from "https://deno.land/x/deno_image/mod.ts";
+import { resize } from "https://deno.land/x/deno_image@0.0.4/mod.ts";
 import { decode } from "https://deno.land/x/jpegts@1.1/mod.ts";
+import { Image } from "jsr:@sauber/block-image@1.0.0";
 
 // Download image
 const url = "https://deno.com/images/artwork/deno_minecraft.jpg";
@@ -32,22 +32,11 @@ const resizedRaw = await resize(raw, {
   aspectRatio: false,
 });
 
-// Copy pixels from resized image to Block PixMap
-const blocks = new PixMap(cols, rows);
-const resized = decode(resizedRaw);
-for (let col = 0; col < cols; ++col) {
-  for (let row = 0; row < rows; ++row) {
-    const { r, g, b } = resized.getPixel(col, row) as {
-      r: number;
-      g: number;
-      b: number;
-    };
-    blocks.set(col, row, new Color(r, g, b));
-  }
-}
+// Import decoded image
+const image = new Image(cols, rows, decode(resizedRaw).data);
 
-// Display blocks
-console.log(blocks.toString());
+// Display image as terminal block elements
+console.log(image.toString());
 ```
 
 Output should look something like this:
