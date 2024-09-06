@@ -1,1 +1,1 @@
-export * from "./src/image.ts";
+export * from "./src/blockify.ts";

@@ -5,18 +5,18 @@ export type RGB = {
   b: number;
 };
 
-export type Pixels = Array<Pixel>;
+export type Colors = Array<Color>;
 
 /** Red, Green, Blue and Alpha channel represented as 4 char Uint8Array */
-export class Pixel {
-  constructor(private readonly data: Uint8Array = new Uint8Array(4)) {
+export class Color {
+  constructor(public readonly data: Uint8Array = new Uint8Array(4)) {
     if (data.length != 4)
       throw new Error(`Data length must be 4, is ${data.length}`);
   }
 
-  /** A black pixel (default) */
-  static get black(): Pixel {
-    return new Pixel();
+  /** Black color (default) */
+  static get black(): Color {
+    return new Color();
   }
 
   /** Create pixel object from number values in range 0-255 */
@@ -26,17 +26,17 @@ export class Pixel {
         `Error: (r:${r},g:${g},b:${b}) not in range(r:[0-255],g:[0-255],b:[0-255])`
       );
 
-    return new Pixel(new Uint8Array([r, g, b, a]));
+    return new Color(new Uint8Array([r, g, b, a]));
   }
 
   /** A white pixel */
-  static get white(): Pixel {
-    return Pixel.fromValues(255, 255, 255, 0);
+  static get white(): Color {
+    return Color.fromValues(255, 255, 255, 0);
   }
 
   /** A random color */
-  static get random(): Pixel {
-    return Pixel.fromValues(
+  static get random(): Color {
+    return Color.fromValues(
       Math.floor(Math.random() * 256),
       Math.floor(Math.random() * 256),
       Math.floor(Math.random() * 256)
@@ -74,14 +74,14 @@ export class Pixel {
   }
 
   /** Are two pixels identical */
-  public equals(other: Pixel): boolean {
+  public equals(other: Color): boolean {
     for (let i = 0; i < 4; i++)
       if (this.data.at(i) != other.data.at(i)) return false;
     return true;
   }
 
   /** Sum of squared differences for each channel */
-  public distance(other: Pixel): number {
+  public distance(other: Color): number {
     const sqr = (n: number) => n * n;
     const distance: number =
       sqr(this.r - other.r) + sqr(this.g - other.g) + sqr(this.b - other.b);
@@ -89,23 +89,23 @@ export class Pixel {
   }
 
   /** Sort colors by brightness */
-  static sort(pixels: Pixels): Pixels {
-    return pixels.sort((a, b) => a.brightness - b.brightness);
+  static sort(colors: Colors): Colors {
+    return colors.sort((a, b) => a.brightness - b.brightness);
   }
 
   /** Average of multiple colors */
-  static average(pixels: Pixels): Pixel {
-    if (!pixels.length) {
+  static average(colors: Colors): Color {
+    if (!colors.length) {
       throw new Error(`Error Average requires at least 1 argument.`);
     }
-    return Pixel.fromValues(
+    return Color.fromValues(
       Math.round(
-        pixels.map((c) => c.r).reduce((s, a) => s + a) / pixels.length
+        colors.map((c) => c.r).reduce((s, a) => s + a) / colors.length
       ),
       Math.round(
-        pixels.map((c) => c.g).reduce((s, a) => s + a) / pixels.length
+        colors.map((c) => c.g).reduce((s, a) => s + a) / colors.length
       ),
-      Math.round(pixels.map((c) => c.b).reduce((s, a) => s + a) / pixels.length)
+      Math.round(colors.map((c) => c.b).reduce((s, a) => s + a) / colors.length)
     );
   }
 }
