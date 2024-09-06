@@ -1,13 +1,10 @@
-import {
-  assert,
-  assertEquals,
-  assertGreaterOrEqual,
-  assertInstanceOf,
-  assertLessOrEqual,
-} from "@std/assert";
+import { assert, assertEquals, assertInstanceOf } from "@std/assert";
 import { Color } from "./color.ts";
 
-const dark = Color.fromValues(1, 1, 1);
+const black = new Color(new Uint8Array(4).fill(0));
+const dark = new Color(new Uint8Array(4).fill(1));
+const white = new Color(new Uint8Array(4).fill(255));
+const average = new Color(new Uint8Array([85, 85, 85, 0]));
 
 Deno.test("Color Instance", () => {
   const p = new Color();
@@ -15,16 +12,8 @@ Deno.test("Color Instance", () => {
 });
 
 Deno.test("Color Presets", () => {
-  const black = Color.black;
   assertEquals(black.brightness, 0);
-  const white = Color.white;
   assertEquals(white.brightness, 255);
-});
-
-Deno.test("Random Color", () => {
-  const p = Color.random;
-  assertGreaterOrEqual(p.brightness, 0);
-  assertLessOrEqual(p.brightness, 255);
 });
 
 Deno.test("Color Channels", () => {
@@ -32,7 +21,6 @@ Deno.test("Color Channels", () => {
   assertEquals(p.r, 0);
   assertEquals(p.g, 0);
   assertEquals(p.b, 0);
-  assertEquals(p.a, 0);
 });
 
 Deno.test("Color Brightness", () => {
@@ -48,25 +36,13 @@ Deno.test("Color Equality", () => {
 
 Deno.test("Color Distance", () => {
   // Minimum distance
-  const p = new Color();
-  const q = new Color();
-  assertEquals(p.distance(q), 0);
+  assertEquals(black.distance(black), 0);
 
   // Maximum distance
-  const b = Color.black;
-  const w = Color.white;
-  assertEquals(b.distance(w), 255 * 255 * 3);
-});
-
-Deno.test("Sort Colors by Brightness", () => {
-  const sorted: Array<Color> = Color.sort([Color.black, Color.white, dark]);
-  assertEquals(
-    sorted.map((c) => c.brightness),
-    [0, 1, 255]
-  );
+  assertEquals(black.distance(white), 255 * 255 * 3);
 });
 
 Deno.test("Average Color", () => {
-  const avg: Color = Color.average([Color.black, Color.white, dark]);
-  assertEquals(avg, Color.fromValues(85, 85, 85));
+  const avg: Color = Color.average([black, white, dark]);
+  assertEquals(avg, average);
 });

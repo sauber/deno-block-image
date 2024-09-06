@@ -1,5 +1,4 @@
 import { assertEquals, assertThrows } from "@std/assert";
-import { Color } from "./color.ts";
 import { blockify } from "./blockify.ts";
 
 // Test colors
@@ -28,6 +27,7 @@ Deno.test("No Image", () => {
 
 Deno.test("Parameter validation", () => {
   assertThrows(() => blockify(noImage, 1, 1));
+  assertThrows(() => blockify(noImage, 2, 1));
   assertThrows(() => blockify(noImage, 2, 2));
 });
 
@@ -45,12 +45,6 @@ Deno.test("Chessboard Char", () => {
     printable,
     "\x1b[48;2;0;0;0m\x1b[38;2;255;255;255m▚\x1b[39m\x1b[49m"
   );
-  console.log(printable);
-});
-
-Deno.test("Random Char", () => {
-  const img = image([0, 1, 2, 3].map((_) => Color.random.data));
-  const printable: string = blockify(img, 2, 2);
   console.log(printable);
 });
 
