@@ -34,13 +34,14 @@ Deno.test("Parameter validation", () => {
 Deno.test("White Image", () => {
   const img = image([white, white, white, white]);
   const printable: string = blockify(img, 2, 2);
-  console.log(printable);
-  assertEquals(printable, "\x1b[48;2;255;255;255m \x1b[49m");
+  console.log({printable});
+  assertEquals(printable, "\x1b[48;2;255;255;255m \x1b[39m\x1b[49m");
 });
 
 Deno.test("Chessboard Char", () => {
   const img = image([white, black, black, white]);
   const printable: string = blockify(img, 2, 2);
+  console.log(printable);
   assertEquals(
     printable,
     "\x1b[48;2;0;0;0m\x1b[38;2;255;255;255m▚\x1b[39m\x1b[49m"

@@ -105,7 +105,7 @@ export function blockify(raw: rawImage, width: number, height: number): string {
       const char: string = blockElement(area);
       line += char;
     }
-    const compressed = line.replaceAll('\x1b[39m\x1b[49m\x1b', '\x1b');
+    const compressed = line.replaceAll('\x1b[39m\x1b[49m\x1b', '\x1b').replace(/ \x1b\[49m$/, ' \x1b[39m\x1b[49m');
     lines.push(compressed);
   }
   return lines.join("\n");
