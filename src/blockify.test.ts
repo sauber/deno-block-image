@@ -13,8 +13,8 @@ const image = (colors: Pixels) =>
   new Uint8Array(
     colors.reduce(
       (acc: Uint8Array, curr: Uint8Array) => new Uint8Array([...acc, ...curr]),
-      new Uint8Array(0)
-    )
+      new Uint8Array(0),
+    ),
   );
 
 // 0x0 pixels image
@@ -34,8 +34,8 @@ Deno.test("Parameter validation", () => {
 Deno.test("White Image", () => {
   const img = image([white, white, white, white]);
   const printable: string = blockify(img, 2, 2);
-  console.log({printable});
-  assertEquals(printable, "\x1b[48;2;255;255;255m \x1b[39m\x1b[49m");
+  console.log({ printable });
+  assertEquals(printable, "\x1b[48;2;255;255;255m \x1b[49m");
 });
 
 Deno.test("Chessboard Char", () => {
@@ -44,7 +44,7 @@ Deno.test("Chessboard Char", () => {
   console.log(printable);
   assertEquals(
     printable,
-    "\x1b[48;2;0;0;0m\x1b[38;2;255;255;255m▚\x1b[39m\x1b[49m"
+    "\x1b[48;2;0;0;0m\x1b[38;2;255;255;255m▚\x1b[39m\x1b[49m",
   );
   console.log(printable);
 });

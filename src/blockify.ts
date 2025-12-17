@@ -1,8 +1,7 @@
-// import { Block } from "./block.ts";
-import { bgRgb24, rgb24 } from "@std/fmt/colors";
 import { Image } from "./image.ts";
 import { Color } from "./color.ts";
 import type { Colors } from "./color.ts";
+import { Line } from "./line.ts";
 
 /** Image, Pixel and Pixel area types */
 export type rawImage = Uint8Array;
@@ -22,9 +21,9 @@ type Quadrants = Array<Quadrant>;
  * Convert 2x2 pixels into one block element
  *
  * @param area 4 Pixels
- * @returns Block element char
+ * @returns Block element char, background and optional foreground color
  */
-function blockElement(area: Area): string {
+function blockElement(area: Area): [string, Color, Color?] {
   // Convert pixels to colors
   const colors: Colors = area.map((p) => new Color(p));
 
@@ -36,13 +35,14 @@ function blockElement(area: Area): string {
 
   // Sort quadrants by bightness, darkest first
   const sorted: Quadrants = quadrants.sort(
-    (a, b) => a.color.brightness - b.color.brightness
+    (a, b) => a.color.brightness - b.color.brightness,
   );
 
   // Identify the darkest quadrant
   const dark: Quadrants = [sorted.shift() as Quadrant];
 
   // Identify all pixels with color equal to darkest
+  // BUG: If pixel has same brightness without same color, loop stops, even though subsequent pixels might have same color
   while (sorted.length && sorted[0].color.equals(dark[0].color)) {
     dark.push(sorted.shift() as Quadrant);
   }
@@ -50,7 +50,7 @@ function blockElement(area: Area): string {
   // If all pixels are identical, then only set background color and display a blank char
   if (dark.length === 4) {
     const bgColor: Color = dark[0].color;
-    return bgRgb24(" ", bgColor.rgb);
+    return [" ", bgColor];
   }
 
   // Identify brightest pixel
@@ -59,9 +59,9 @@ function blockElement(area: Area): string {
   // For remaining pixels, test if they are most close the darkest or
   // brightest pixel, and add to respective groups
   sorted.forEach((q: Quadrant) => {
-    if (q.color.distance(dark[0].color) < q.color.distance(bright[0].color))
+    if (q.color.distance(dark[0].color) < q.color.distance(bright[0].color)) {
       dark.push(q);
-    else bright.push(q);
+    } else bright.push(q);
   });
 
   // Average of dark and bright colors
@@ -77,7 +77,7 @@ function blockElement(area: Area): string {
   const element = chars.substring(elementIndex, elementIndex + 1);
 
   // Color code background and foreground
-  return bgRgb24(rgb24(element, fg.rgb), bg.rgb);
+  return [element, bg, fg];
 }
 
 /**
@@ -98,15 +98,16 @@ export function blockify(raw: rawImage, width: number, height: number): string {
   // Assemble chars
   const lines: Array<string> = [];
   for (let y = 0; y < height; y += 2) {
-    let line = "";
+    // let line = "";
+    const line = new Line();
     for (let x = 0; x < width; x += 2) {
       // 2x2 pixel area from image
       const area = image.area(x, y, 2, 2) as Area;
-      const char: string = blockElement(area);
-      line += char;
+      const [char, bg, fg] = blockElement(area);
+      if (fg) line.addFgBg(char, fg, bg);
+      else line.addBg(char, bg);
     }
-    const compressed = line.replaceAll('\x1b[39m\x1b[49m\x1b', '\x1b').replace(/ \x1b\[49m$/, ' \x1b[39m\x1b[49m');
-    lines.push(compressed);
+    lines.push(line.toString());
   }
   return lines.join("\n");
 }

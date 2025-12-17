@@ -53,6 +53,8 @@ Output should look something like this:
 
 https://jsr.io/@garn/terminal-images has similar usage. Main differences are:
 
-* terminal-images has a deep stack of dependencies of both Deno and Node modules. block-image only depends on two Deno std modules.
-* terminal-images need to run async. block-image is sync.
-* terminal-images supports many image formats and animations. block-image supports only raw pixel buffer.
+- terminal-images has a deep stack of dependencies of both Deno and Node
+  modules. block-image has no dependencies.
+- terminal-images need to run async. block-image is sync.
+- terminal-images supports many image formats and animations. block-image
+  supports only raw pixel buffer.
