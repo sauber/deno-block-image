@@ -38,17 +38,17 @@ export class Color {
 
   /** Are two pixels identical */
   public equals(other: Color): boolean {
-    for (let i = 0; i < 4; i++)
+    for (let i = 0; i < 4; i++) {
       if (this.data.at(i) != other.data.at(i)) return false;
+    }
     return true;
   }
 
   /** Sum of squared differences for each channel */
   public distance(other: Color): number {
-    const sqr = (n: number) => n * n;
-    const distance: number =
-      sqr(this.r - other.r) + sqr(this.g - other.g) + sqr(this.b - other.b);
-    return distance;
+    return Math.abs(this.r - other.r) +
+      Math.abs(this.g - other.g) +
+      Math.abs(this.b - other.b);
   }
 
   /** Average of multiple colors */
@@ -56,16 +56,16 @@ export class Color {
     return new Color(
       new Uint8Array([
         Math.round(
-          colors.map((c) => c.r).reduce((s, a) => s + a) / colors.length
+          colors.map((c) => c.r).reduce((s, a) => s + a) / colors.length,
         ),
         Math.round(
-          colors.map((c) => c.g).reduce((s, a) => s + a) / colors.length
+          colors.map((c) => c.g).reduce((s, a) => s + a) / colors.length,
         ),
         Math.round(
-          colors.map((c) => c.b).reduce((s, a) => s + a) / colors.length
+          colors.map((c) => c.b).reduce((s, a) => s + a) / colors.length,
         ),
         0,
-      ])
+      ]),
     );
   }
 }

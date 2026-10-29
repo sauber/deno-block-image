@@ -39,7 +39,7 @@ Deno.test("Color Distance", () => {
   assertEquals(black.distance(black), 0);
 
   // Maximum distance
-  assertEquals(black.distance(white), 255 * 255 * 3);
+  assertEquals(black.distance(white), 255 * 3);
 });
 
 Deno.test("Average Color", () => {
