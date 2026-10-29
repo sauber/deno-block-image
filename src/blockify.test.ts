@@ -50,8 +50,8 @@ Deno.test("Chessboard Char", () => {
 });
 
 Deno.test("Gradient Image", () => {
-  const rows = 16;
-  const cols = 36;
+  const rows = 14;
+  const cols = 34;
   const pixels: Pixels = [];
   const d = rows - 1 + cols - 1;
   for (let y = 0; y < rows; ++y) {
